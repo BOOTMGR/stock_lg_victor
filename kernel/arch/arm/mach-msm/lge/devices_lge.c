@@ -305,7 +305,7 @@ static struct kgsl_platform_data kgsl_pdata = {
 	/* Maximum of 32 concurrent processes */
 	.pt_max_count = 32,
 #else
-	.pt_va_size = SZ_128M,
+	.pt_va_size = SZ_64M,
 	/* We only ever have one pagetable for everybody */
 	.pt_max_count = 1,
 #endif
@@ -315,7 +315,7 @@ static struct resource kgsl_resources[] = {
 	{
 		.name = "kgsl_reg_memory",
 		.start = 0xA3500000, /* 3D GRP address */
-		.end = 0xA351ffff,
+		.end = 0xA350FFFF,
 		.flags = IORESOURCE_MEM,
 	},
 	{
