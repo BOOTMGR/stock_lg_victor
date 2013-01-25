@@ -303,8 +303,10 @@ static struct kgsl_platform_data kgsl_pdata = {
 
 #ifdef CONFIG_KGSL_PER_PROCESS_PAGE_TABLE
 	.pt_va_size = SZ_32M,
+	.pt_max_count = 32,
 #else
 	.pt_va_size = SZ_128M,
+	.pt_max_count = 1,
 #endif
 };
 
