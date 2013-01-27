@@ -304,7 +304,7 @@ static struct kgsl_platform_data kgsl_pdata = {
 	.pt_va_size = SZ_32M,
 	.pt_max_count = 32,
 #else
-	.pt_va_size = SZ_128M,
+	.pt_va_size = SZ_96M, /*SZ_128M, */
 	.pt_max_count = 1,
 #endif
 };
@@ -312,7 +312,7 @@ static struct kgsl_platform_data kgsl_pdata = {
 static struct resource kgsl_resources[] = {
 	{
 		.name = "kgsl_reg_memory",
-		.start = 0xA3500000, /* 3D GRP address */
+		.start = 0xA3508000, /*0xA3500000  3D GRP address */
 		.end = 0xA351ffff,
 		.flags = IORESOURCE_MEM,
 	},
