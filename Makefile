@@ -1,7 +1,11 @@
 VERSION = 2
 PATCHLEVEL = 6
 SUBLEVEL = 35
+<<<<<<< HEAD
+EXTRAVERSION = .7
+=======
 EXTRAVERSION = .14
+>>>>>>> 421a89c... UPDATE: Patched kernel to .14
 NAME = Yokohama
 
 # *DOCUMENTATION*
@@ -192,9 +196,8 @@ SUBARCH := arm
 # Note: Some architectures assign CROSS_COMPILE in their arch/*/Makefile
 export KBUILD_BUILDHOST := $(SUBARCH)
 ARCH		?= arm
-#CROSS_COMPILE	?= arm-eabi-
-#CROSS_COMPILE	?= $(CONFIG_CROSS_COMPILE:"%"=%)
-CROSS_COMPILE	?= /home/harsh/android/kernel/toolchains/linaro/bin/arm-eabi-
+CROSS_COMPILE	?= /home/andr00ib/toolchains/arm-eabi-linaro-4.7.3/bin/arm-eabi-
+
 
 # Architecture as present in compile.h
 UTS_MACHINE 	:= $(ARCH)
@@ -337,12 +340,12 @@ CHECK		= sparse
 LGE_CF		= -D__CHECK_ENDIAN__ -Wcast-truncate -Wno-paren-string -Wtypesign
 CHECKFLAGS     := -D__linux__ -Dlinux -D__STDC__ -Dunix -D__unix__ \
 		  -Wbitwise -Wno-return-void $(CF) $(LGE_CF)
-MODFLAGS	= -DMODULE
+MODFLAGS	= -DMODULE -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -ffast-math -fsingle-precision-constant -mtune=cortex-a9 -march=armv7-a -mfpu=neon -mvectorize-with-neon-quad -ftree-vectorize -funswitch-loops
 CFLAGS_MODULE   = $(MODFLAGS)
 AFLAGS_MODULE   = $(MODFLAGS)
 LDFLAGS_MODULE  = -T $(srctree)/scripts/module-common.lds
-CFLAGS_KERNEL	=
-AFLAGS_KERNEL	=
+CFLAGS_KERNEL	= -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -ffast-math -fsingle-precision-constant -mtune=cortex-a9 -march=armv7-a -mfpu=neon -mvectorize-with-neon-quad -ftree-vectorize -funswitch-loops
+AFLAGS_KERNEL	= -fgcse-lm -fgcse-sm -fsched-spec-load -fforce-addr -ffast-math -fsingle-precision-constant -mtune=cortex-a9 -march=armv7-a -mfpu=neon -mvectorize-with-neon-quad -ftree-vectorize -funswitch-loops
 CFLAGS_GCOV	= -fprofile-arcs -ftest-coverage
 
 
@@ -354,10 +357,16 @@ LINUXINCLUDE    := -I$(srctree)/arch/$(hdr-arch)/include -Iinclude \
 
 KBUILD_CPPFLAGS := -D__KERNEL__
 
-KBUILD_CFLAGS   := -Wall -Wundef -Wstrict-prototypes -Wno-trigraphs \
+KBUILD_CFLAGS   := -Wstrict-prototypes -Wno-trigraphs \
 		   -fno-strict-aliasing -fno-common \
 		   -Wno-format-security \
-		   -fno-delete-null-pointer-checks
+		   -fno-delete-null-pointer-checks -mno-unaligned-access \
+                   -marm -mcpu=cortex-a9 -mtune=cortex-a9 -mfpu=neon \
+                   -fsingle-precision-constant -fpredictive-commoning -fipa-cp-clone \
+                   -fmodulo-sched -fmodulo-sched-allow-regmoves \
+                   -funsafe-math-optimizations -fgcse-after-reload -ftree-vectorize -pipe \
+                   -funswitch-loops -fpredictive-commoning -floop-interchange \
+                   -floop-strip-mine -floop-block
 KBUILD_AFLAGS   := -D__ASSEMBLY__
 
 # Read KERNELRELEASE from include/config/kernel.release (if it exists)
@@ -550,6 +559,9 @@ ifndef CONFIG_CC_STACKPROTECTOR
 KBUILD_CFLAGS += $(call cc-option, -fno-stack-protector)
 endif
 
+# This warning generated too much noise in a regular build.
+KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
+
 ifdef CONFIG_FRAME_POINTER
 KBUILD_CFLAGS	+= -fno-omit-frame-pointer -fno-optimize-sibling-calls
 else
@@ -578,7 +590,7 @@ CHECKFLAGS     += $(NOSTDINC_FLAGS)
 KBUILD_CFLAGS += $(call cc-option,-Wdeclaration-after-statement,)
 
 # disable pointer signed / unsigned warnings in gcc 4.0
-KBUILD_CFLAGS += $(call cc-option,-Wno-pointer-sign,)
+KBUILD_CFLAGS += $(call cc-disable-warning, pointer-sign)
 
 # disable invalid "can't wrap" optimizations for signed / pointers
 KBUILD_CFLAGS	+= $(call cc-option,-fno-strict-overflow)
