@@ -1,11 +1,7 @@
 VERSION = 2
 PATCHLEVEL = 6
 SUBLEVEL = 35
-<<<<<<< HEAD
-EXTRAVERSION = .7
-=======
 EXTRAVERSION = .14
->>>>>>> 421a89c... UPDATE: Patched kernel to .14
 NAME = Yokohama
 
 # *DOCUMENTATION*
