@@ -175,7 +175,7 @@ static struct dec_instance_table dec_instance_list[][MSM_MAX_DEC_CNT] = {
 	{
 		DEC_INSTANCE(4, 3), /* WAV */
 		DEC_INSTANCE(4, 3), /* ADPCM */
-		DEC_INSTANCE(4, 2), /* MP3 */
+		DEC_INSTANCE(4, 3), /* MP3 */
 		DEC_INSTANCE(0, 0), /* Real Audio */
 		DEC_INSTANCE(4, 2), /* WMA */
 		DEC_INSTANCE(3, 2), /* AAC */
